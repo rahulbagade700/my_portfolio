@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Johnson - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff0080;
+            --accent-color: #00ff88;
+            --dark-bg: #0a0a0a;
+            --dark-card: #1a1a1a;
+            --light-bg: #ffffff;
+            --light-card: #f8f9fa;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --neon-glow: 0 0 20px var(--primary-color);
+            --neon-glow-secondary: 0 0 20px var(--secondary-color);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Light/Dark Mode Styles */
+        body.light-mode {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        .light-mode .navbar {
+            background-color: var(--light-card) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .navbar {
+            background-color: var(--dark-card) !important;
+            box-shadow: var(--neon-glow);
+        }
+
+        .light-mode .card {
+            background-color: var(--light-card);
+            border: 1px solid #e0e0e0;
+        }
+
+        .dark-mode .card {
+            background-color: var(--dark-card);
+            border: 1px solid var(--primary-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .dark-mode .navbar-brand {
+            color: var(--primary-color) !important;
+            text-shadow: var(--neon-glow);
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .dark-mode .nav-link {
+            color: var(--text-light) !important;
+        }
+
+        .dark-mode .nav-link:hover {
+            color: var(--primary-color) !important;
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 50px;
+            padding: 8px 15px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            box-shadow: var(--neon-glow);
+            transform: scale(1.05);
+        }
+
+        /* Banner Section */
+        .banner {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .profile-img {
+            width: 500px;
+            height: 550px;
+            border-radius: 5%;
+            border: 5px solid rgb(121, 216, 240);
+            box-shadow: 0 0 50px rgba(255,255,255,0.3);
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        .banner-text h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .banner-text p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: slideInRight 1s ease-out 0.5s both;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .dark-mode .section-title h2 {
+            color: var(--primary-color);
+            text-shadow: var(--neon-glow);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        /* Skills Section */
+        .skill-item {
+            margin-bottom: 2rem;
+        }
+
+        .skill-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dark-mode .skill-bar {
+            background-color: #333;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border-radius: 5px;
+            transition: width 2s ease-in-out;
+            position: relative;
+        }
+
+        .dark-mode .skill-progress {
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        /* Project Cards */
+        .project-card {
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .dark-mode .project-card:hover {
+            box-shadow: var(--neon-glow-secondary);
+        }
+
+        /* Service Cards */
+        .service-card {
+            text-align: center;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .service-card:hover {
+            transform: scale(1.05);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .dark-mode .service-icon {
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Quick Links */
+        .quick-links {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+        }
+
+        .quick-link {
+            display: block;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .quick-link:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+            box-shadow: var(--neon-glow);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-card), var(--primary-color));
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+            text-shadow: var(--neon-glow);
+            transform: scale(1.2);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 50px rgba(255,255,255,0.3); }
+            100% { box-shadow: 0 0 80px rgba(255,255,255,0.6); }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .banner-text h1 { font-size: 2.5rem; }
+            .banner-text p { font-size: 1.2rem; }
+            .profile-img { width: 200px; height: 200px; }
+            .quick-links { display: none; }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#home">Rahul S.B</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item">
+                        <button class="theme-toggle ms-2" onclick="toggleTheme()">
+                            <i class="fas fa-moon" id="theme-icon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quick Links -->
+    <div class="quick-links">
+        <a href="#home" class="quick-link"><i class="fas fa-home"></i></a>
+        <a href="#about" class="quick-link"><i class="fas fa-user"></i></a>
+        <a href="#services" class="quick-link"><i class="fas fa-cogs"></i></a>
+        <a href="#skills" class="quick-link"><i class="fas fa-code"></i></a>
+        <a href="#projects" class="quick-link"><i class="fas fa-project-diagram"></i></a>
+        <a href="#education" class="quick-link"><i class="fas fa-graduation-cap"></i></a>
+    </div>
+
+    <!-- Banner Section -->
+    <section id="home" class="banner">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="banner-text text-white">
+                        <h1>RAHUL S.B</h1>
+                        <p>Full Stack Developer</p>
+                        <a href="#about" class="btn btn-light btn-lg me-3">Learn More</a>
+                        <a href="#contact" class="btn btn-outline-light btn-lg">Get In Touch</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img class="profile-img" src="rahulsb.jpg" style=" width: 350px; height: 580px;" alt="Profile Image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+                        <path d="M90 85 Q100 90 110 85" stroke="#333" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Me</h2>
+                <p>Passionate developer with 5+ years of experience</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 fade-in-up">
+                    <h3>Hello! I'm Rahul S.B</h3>
+                    <p>I'm a passionate full-stack developer  with over 1 years of experience creating digital solutions that make a difference. I specialize in modern web technologies and love bringing creative ideas to life through code.</p>
+                    <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying a good cup of coffee while sketching out my next big idea.</p>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <strong>Name:</strong> RAHUL S.B<br>
+                            <strong>Age:</strong> 23<br>
+                            <strong>Location:</strong> San Francisco, CA
+                        </div>
+                        <div class="col-6">
+                            <strong>Email:</strong> rahulbagade700@gmail.com<br>
+                            <strong>Phone:</strong> +91 9022788382<br>
+                            <strong>Freelance:</strong> Available
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 fade-in-up">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4  style="color: rgb(15, 192, 236);">My Journey</h4>
+                            <div class="timeline">
+                                <div class="mb-3">
+                                    <strong  style="color: rgb(15, 192, 236);">2024 - Present</strong><br>
+                                    <p  style="color: rgb(15, 192, 236);"> Full Stack Developer</p>
+                                </div>
+                                <div class="mb-3">
+                                    <strong  style="color: rgb(15, 192, 236);">2024 - 2025</strong><br>
+                                   <p  style="color: rgb(15, 192, 236);">Frontend Developer </p>
+                                </div>
+                                <div class="mb-3">
+                                    <strong  style="color: rgb(15, 192, 236);">2024 - 2025</strong><br>
+                                   <p  style="color: rgb(15, 192, 236);">Junior  full-stack Developer 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>My Services</h2>
+                <p>What I can do for you</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card service-card">
+                        <div class="card-body">
+                            <div class="service-icon">
+                                <i class=""></i>
+                            </div>
+                            <h4 style="color: rgb(15, 192, 236);">Web Development</h4>
+                            <p style="color: rgb(15, 192, 236);">Custom web applications built with modern technologies like React, Node.js, and MongoDB.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card service-card">
+                        <div class="card-body">
+                            <div class="service-icon">
+                                <i class=""></i>
+                            </div>
+                            <h4 style="color: rgb(15, 192, 236);">Backend Development</h4>
+                            <p style="color: rgb(15, 192, 236);">Skilled in Backend Development using Node.js, Express.js, and databases like MySQL and MongoDB, with expertise in building RESTful APIs, authentication, and server-side logic..</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card service-card">
+                        <div class="card-body">
+                            <div class="service-icon">
+                                <i class=""></i>
+                            </div>
+                            <h4 style="color: rgb(15, 192, 236);">Data Base Development</h4>
+                            <p style="color: rgb(15, 192, 236);">Proficient in Database Design and Management with expertise in MySQL and MongoDB, including schema design, queries, indexing, and data security.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>My Skills</h2>
+                <p>Technologies I work with</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>HTML</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>CSS</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>BOOTSTRAP</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="80"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>JAVASCRIPT</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>REACT</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="88"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>NODE.JS</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="82"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>My Projects</h2>
+                <p style="color: rgb(15, 192, 236);">Some of my recent work</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card project-card">
+                        <div class="card-body">
+                            <div class="mb-3" style="height: 200px; background: linear-gradient(45deg, #00d4ff, #ff0080); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-chart-line" style="font-size: 3rem; color: white;"></i>
+                            </div>
+                            <h5 style="color: rgb(15, 192, 236);">E-Commerce Website</h5>
+                            <p style="color: rgb(15, 192, 236);">A full-featured online store built with React and Node.js, featuring payment integration and admin dashboard.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary btn-sm" style="color: rgb(15, 192, 236);">View Demo</a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Source Code</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card project-card">
+                        <div class="card-body">
+                            <div class="mb-3" style="height: 200px; background: linear-gradient(45deg, #00ff88, #00d4ff); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-chart-line" style="font-size: 3rem; color: white;"></i>
+                            </div>
+                            <h5 style="color: rgb(15, 192, 236);">Classes Website</h5>
+                            <p style="color: rgb(15, 192, 236);">A collaborative project management tool with real-time updates, built using React and Firebase.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary btn-sm">View Demo</a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Source Code</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card project-card">
+                        <div class="card-body">
+                            <div class="mb-3" style="height: 200px; background: linear-gradient(45deg, #ff0080, #00ff88); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-chart-line" style="font-size: 3rem; color: white;"></i>
+                            </div>
+                            <h5 style="color: rgb(15, 192, 236);">Kamla Hospital Website</h5>
+                            <p style="color: rgb(15, 192, 236);">A comprehensive data visualization dashboard built with D3.js and Python backend for business intelligence.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary btn-sm">View Demo</a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Source Code</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ----------------------------------------------------------------------------------------------------------------------------------- -->
+    <!-- Education Section -->
+    <section id="education" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Education</h2>
+                <p>My academic background</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="service-icon me-3">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div>
+                                    <h5 style="color: rgb(15, 192, 236);">Computer Diploma</h5>
+                                    <p class="mb-0" style="color: rgb(15, 192, 236);">Mumbai University (2021-2024)</p>
+                                </div>
+                            </div>
+                            <p style="color: rgb(15, 192, 236);">Diploma in Computer Engineering | Specialization: Software Engineering & HCI | Honors Graduate | Thesis: Modern Web Application Architecture".</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="service-icon me-3">
+                                    <i class="fas fa-university"></i>
+                                </div>
+                                <div>
+                                    <h5 style="color: rgb(15, 192, 236);">Bachelor of Computer Engineering</h5>
+                                    <p class="mb-0" style="color: rgb(15, 192, 236);">University of Raygad (2024-2025)</p>
+                                </div>
+                            </div>
+                            <p style="color: rgb(15, 192, 236);">Foundation in computer Engineering fundamentals including algorithms, data structures, and software development. Active member of the coding club.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="mb-4" style="color: rgb(15, 192, 236);">Certifications</h4>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class=""></i>
+                                    <h6 style="color: rgb(15, 192, 236);">HTML</h6>
+                                    <img src="Rahul Subhash Bagade-HTML Certificate_page-0001.jpg" style="width: 360px; height: 300px; border-radius: 10px;" alt="">
+                                    <!-- <small style="color: rgb(15, 192, 236);">Amazon Web Services</small> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class=""></i>
+                                    <h6 style="color: rgb(15, 192, 236);">CSS</h6>
+                                    <img src="Rahul Subhash Bagade-CSS Certificate_page-0001.jpg" style="width: 360px; height: 300px; border-radius: 10px;" alt="">
+                                    <!-- <small style="color: rgb(15, 192, 236);"></small> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class=""></i>
+                                    <h6 style="color: rgb(15, 192, 236);">BOOTSTRAP</h6>
+                                    <img src="Rahul Subhash Bagade-BOOSTSTRAP Certificate (1)_page-0001.jpg" style="width: 360px; height: 300px; border-radius: 10px;" alt="">
+                                    <!-- <small style="color: rgb(15, 192, 236);"></small> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class=""></i>
+                                    <h6 style="color: rgb(15, 192, 236);">JAVASCRIPT</h6>
+                                    <img src="JAVASCRIPT Certificate_page-0001.jpg" style="width: 360px; height: 300px; border-radius: 10px;" alt="">
+                                    <!-- <small style="color: rgb(15, 192, 236);"></small> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class=""></i>
+                                    <h6 style="color: rgb(15, 192, 236);">JQUERY</h6>
+                                    <img src="Rahul Subhash Bagade-JQUERY Certificate_page-0001.jpg" style="width: 360px; height: 300px; border-radius: 10px;" alt="">
+                                    <!-- <small style="color: rgb(15, 192, 236);"></small> -->
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class=""></i>
+                                    <h6 style="color: rgb(15, 192, 236);">NODE.JS</h6>
+                                    <img src="Rahul Subhash Bagade-NODE JS Certificate (1)_page-0001.jpg" style="width: 360px; height: 300px; border-radius: 10px;" alt="">
+                                    <!-- <small style="color: rgb(15, 192, 236);"></small> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+                <p>Let's work together</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" style="color: rgb(15, 192, 236);">Name</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" style="color: rgb(15, 192, 236);">Email</label>
+                                        <input type="email" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" style="color: rgb(15, 192, 236);">Subject</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" style="color: rgb(15, 192, 236);">Message</label>
+                                    <textarea class="form-control" rows="5" required></textarea>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>Rahul S.B</h5>
+                    <p>Full-Stack Developer.</p>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/%F0%9F%86%81%F0%9F%85%B0%F0%9F%85%B7%F0%9F%86%84%F0%9F%85%BB-s-b%F0%9F%96%8B%EF%B8%8F-173b83310/"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-white-50">Home</a></li>
+                        <li><a href="#about" class="text-white-50">About</a></li>
+                        <li><a href="#services" class="text-white-50">Services</a></li>
+                        <li><a href="#projects" class="text-white-50">Projects</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i> rahulbagade700@gmail.com</p>
+                    <p><i class="fas fa-phone me-2" style="color: green;"></i> +91 9022788382</p>
+                    <p><i class="fas fa-map-marker-alt me-2" style="color: red;"></i> A2Z IT HUB Pvt.Ltd</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2025  Rahul Bagade. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Skill Bar Animation
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.width = width + '%';
+            });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                    
+                    // Animate skill bars when skills section is visible
+                    if (entry.target.id === 'skills') {
+                        setTimeout(animateSkillBars, 500);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = document.body.classList.contains('dark-mode') 
+                    ? 'rgba(26, 26, 26, 0.95)' 
+                    : 'rgba(248, 249, 250, 0.95)';
+            } else {
+                navbar.style.backgroundColor = document.body.classList.contains('dark-mode') 
+                    ? 'var(--dark-card)' 
+                    : 'var(--light-card)';
+            }
+        });
+
+        // Form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! This is a demo form.');
+        });
+
+        // Initialize animations on load
+        window.addEventListener('load', () => {
+            // Add initial animations
+            document.querySelectorAll('.fade-in-up').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976995f0b0db4844',t:'MTc1NjQ0NDY4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
